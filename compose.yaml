@@ -1,0 +1,31 @@
+# Local single-node deployment. NOTE: not built or run on the development
+# machine (Docker unavailable); see README.md.
+#
+# Usage:
+#   cp .env.example .env   # then set LEDGER_API_KEYS to real hashes
+#   docker compose up --build
+
+services:
+  ledger:
+    build: .
+    image: distributed-ledger-core:local
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      LEDGER_BIND: "0.0.0.0:8080"
+      LEDGER_DATA_DIR: /var/lib/ledger/data
+      LEDGER_FSYNC: ${LEDGER_FSYNC:-always}
+      LEDGER_LOG_LEVEL: ${LEDGER_LOG_LEVEL:-info}
+      LEDGER_API_KEYS: ${LEDGER_API_KEYS:?set LEDGER_API_KEYS in .env (see ledgerctl hash-key)}
+    volumes:
+      - ledger-data:/var/lib/ledger/data
+    stop_grace_period: 15s
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  ledger-data:
