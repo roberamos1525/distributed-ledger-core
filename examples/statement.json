@@ -1,0 +1,10 @@
+{
+  "currency": "USD",
+  "closing_balance": "1645.89",
+  "lines": [
+    { "date": "2026-03-02", "amount": "1250.00", "reference": "INV-1001" },
+    { "date": "2026-03-03", "amount": "310.40", "reference": "INV-1002" },
+    { "date": "2026-03-05", "amount_minor": 8999, "description": "Card settlement" },
+    { "date": "2026-03-06", "amount": "-4.50", "description": "Bank fee" }
+  ]
+}

@@ -1,0 +1,5 @@
+date,description,amount,reference
+2026-03-02,Customer payment INV-1001,1250.00,INV-1001
+2026-03-03,Customer payment INV-1002,310.40,INV-1002
+2026-03-05,Card settlement,89.99,
+2026-03-06,Bank fee,-4.50,

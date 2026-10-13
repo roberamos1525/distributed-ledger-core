@@ -1,0 +1,58 @@
+# Example configuration for ledger-server. Every key is optional; omitted
+# keys use the defaults documented in GETTING_STARTED.md. Environment
+# variables (LEDGER_*) override values from this file.
+
+[server]
+bind = "127.0.0.1:8080"
+max_body_bytes = 1048576        # 1 MiB request body limit
+request_timeout_secs = 30
+shutdown_grace_secs = 10
+metrics_public = true           # serve /metrics without a key
+
+[storage]
+data_dir = "./data"
+fsync = "always"                # always | batch | never
+fsync_batch = 32                # appends per fsync in batch mode
+segment_max_bytes = 67108864    # 64 MiB WAL segments
+max_record_bytes = 4194304
+snapshot_every_events = 10000   # 0 disables automatic snapshots
+snapshot_retain = 3
+snapshot_check_interval_secs = 30
+repair_torn_tail = true         # truncate an incomplete final WAL record
+truncate_corruption = false     # never silently drop corrupt records
+audit_fsync = true
+
+[ledger]
+max_postings = 64
+max_amount = 1000000000000000   # per posting, in minor units
+max_pending_ttl_secs = 2592000  # 30 days
+pending_sweep_interval_secs = 5
+extra_currencies = [{ code = "XTS", minor_units = 2 }]
+
+# Override the default negative-balance policy per account type.
+[ledger.default_policies]
+asset = { kind = "no_overdraft" }
+liability = { kind = "no_overdraft" }
+expense = { kind = "unrestricted" }
+
+[idempotency]
+ttl_secs = 86400
+max_entries = 100000
+purge_interval_secs = 60
+
+[logging]
+level = "info"                  # any tracing filter, e.g. "ledger_core=debug,info"
+format = "json"                 # json | pretty
+
+[reconciliation]
+date_tolerance_days = 2
+amount_tolerance = 0            # minor units
+max_statement_lines = 10000
+
+# API keys are best supplied via LEDGER_API_KEYS (see .env.example). To put
+# them here instead, add entries produced by `ledgerctl hash-key`:
+#
+# [[auth.api_keys]]
+# id = "ops"
+# role = "admin"
+# key_sha256 = "<64 hex chars>"
