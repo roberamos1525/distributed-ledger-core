@@ -1,0 +1,19 @@
+# Build output
+/target/
+
+# Local data directories created by running the server or examples
+/data/
+/examples/data/
+*.wal
+*.snap
+
+# Local configuration and secrets
+.env
+*.local.toml
+
+# Editors / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

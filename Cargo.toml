@@ -1,0 +1,57 @@
+[package]
+name = "distributed-ledger-core"
+version = "0.1.0"
+edition = "2024"
+description = "Double-entry financial ledger with event sourcing, WAL persistence and a REST API"
+license = "MIT"
+authors = ["Robert Ramos"]
+readme = "README.md"
+publish = false
+default-run = "ledger-server"
+
+[lib]
+name = "ledger_core"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ledger-server"
+path = "src/bin/ledger-server.rs"
+
+[[bin]]
+name = "ledgerctl"
+path = "src/bin/ledgerctl.rs"
+
+[[bench]]
+name = "posting"
+harness = false
+
+[[bench]]
+name = "replay"
+harness = false
+
+[dependencies]
+axum = "0.8.9"
+chrono = { version = "0.4.45", default-features = false, features = ["clock", "serde", "std"] }
+clap = { version = "4.6.7", features = ["derive", "env"] }
+crc32fast = "1.5.2"
+csv = "1.4.0"
+getrandom = "0.4.3"
+hex = "0.4.3"
+parking_lot = { version = "0.12.5", features = ["arc_lock"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+sha2 = "0.11.0"
+thiserror = "2.0.21"
+tokio = { version = "1.53.2", features = ["rt-multi-thread", "macros", "signal", "time", "sync", "net"] }
+toml = "1.1.8"
+tower = { version = "0.5.3", features = ["util", "timeout", "limit"] }
+tower-http = { version = "0.7.1", features = ["limit", "timeout", "trace", "request-id"] }
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter", "json", "fmt"] }
+uuid = { version = "1.28.0", features = ["v4", "v7", "serde"] }
+
+[dev-dependencies]
+criterion = "0.8.2"
+proptest = "1.12.0"
+reqwest = { version = "0.13.5", default-features = false, features = ["json"] }
+tempfile = "3.27.0"
